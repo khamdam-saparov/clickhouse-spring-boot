@@ -1,0 +1,20 @@
+version: '3.8'
+services:
+  clickhouse:
+    image: clickhouse/clickhouse-server:23.4
+    ports:
+      - "8123:8123"
+    volumes:
+      - clickhouse-data:/var/lib/clickhouse
+
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - clickhouse
+    environment:
+      SPRING_PROFILES_ACTIVE: default
+
+volumes:
+  clickhouse-data:
