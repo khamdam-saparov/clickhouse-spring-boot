@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <changeSet id="create_users_table" author="khamdam">
+        <createTable tableName="users" remarks="Foydalanuvchilar jadvali">
+            <column name="id" type="UInt64">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="String">
+                <constraints nullable="false"/>
+            </column>
+            <column name="address" type="String"/>
+            <column name="phone" type="String"/>
+            <column name="email" type="String">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="String">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pin" type="String"/>
+            <column name="gender" type="String(10)"/>
+            <column name="birthday" type="Date"/>
+        </createTable>
+
+        <!-- ClickHouse uchun engine sozlamasi -->
+        <sql>ALTER TABLE users ENGINE = MergeTree() ORDER BY (id, email)</sql>
+
+        <!-- Email uchun unique indeks (ClickHouse-da bu materialized view orqali amalga oshirilishi mumkin) -->
+        <createIndex tableName="users" indexName="idx_users_email">
+            <column name="email"/>
+        </createIndex>
+    </changeSet>
+
+    <!-- Parolni hash qilish uchun default qiymat (agar kerak bo'lsa) -->
+    <changeSet id="add_password_hash_default" author="your_name">
+        <addDefaultValue
+          tableName="users"
+          columnName="password"
+          defaultValue="''"
+          columnDataType="String"/>
+    </changeSet>
+</databaseChangeLog>

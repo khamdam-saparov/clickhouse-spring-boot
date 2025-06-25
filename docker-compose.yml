@@ -6,6 +6,11 @@ services:
       - "8123:8123"
     volumes:
       - clickhouse-data:/var/lib/clickhouse
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://clickhouse:8123/ping" ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
   app:
     build: .
@@ -15,6 +20,8 @@ services:
       - clickhouse
     environment:
       SPRING_PROFILES_ACTIVE: default
+      SPRING_DATASOURCE_URL: jdbc:clickhouse://clickhouse:8123/default?send_retries=3&retry_delay=1000&socket_timeout=30000&tcp_keep_alive=true
+      SPRING_DATASOURCE_DRIVER-CLASS-NAME: com.clickhouse.jdbc.ClickHouseDriver
 
 volumes:
   clickhouse-data:
