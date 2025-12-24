@@ -6,6 +6,7 @@ Connects to ClickHouse using JDBC.
 Uses Spring Data JPA style repositories.
 Exposes REST endpoints to query data from ClickHouse.
 Demonstrates configuration via application.yml.
+
 🧰 Requirements
 Before running the project, ensure you have:
 
