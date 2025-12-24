@@ -14,6 +14,7 @@ Java 17+
 Gradle 7.x or higher
 ClickHouse Server (local or remote)
 Spring Boot 3.x compatible dependencies
+
 🛠️ Setup Instructions
 1. Install ClickHouse (if not already installed)
 You can install ClickHouse locally using Docker:
