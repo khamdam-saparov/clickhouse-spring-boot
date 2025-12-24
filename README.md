@@ -61,6 +61,7 @@ spring:
     username: default
     password:
     driver-class-name: ru.yandex.clickhouse.ClickHouseDriver
+
 🏃 Run the Application
 Use the following command to start the application:
 
